@@ -163,7 +163,8 @@ assert_fails 'refuses .. as the output' 'relative directory reference' \
   "$script" "$cov" "$mut" "$work/.."
 
 assert_fails 'refuses the filesystem root' 'refusing to write the site to' \
-  "$script" "$cov" "$mut" "/"
+  bash -c 'cd "$1" || exit; shift; exec "$@"' _ "$work" \
+    "$script" "$cov" "$mut" "/"
 
 # A path whose parent does not exist cannot be resolved, so it is refused
 # rather than guessed at.
